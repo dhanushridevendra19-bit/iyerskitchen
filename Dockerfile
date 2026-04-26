@@ -4,9 +4,7 @@ COPY . /var/www/html/
 
 RUN docker-php-ext-install mysqli
 
-# Fix for Railway dynamic port
+# Make Apache use Railway PORT
 RUN sed -i 's/80/${PORT}/g' /etc/apache2/ports.conf /etc/apache2/sites-available/000-default.conf
-
-EXPOSE 80
 
 CMD ["apache2-foreground"]
