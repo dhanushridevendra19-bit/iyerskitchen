@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iyer's Kitchen - Customer Registration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #fffef5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            background-image: linear-gradient(rgba(255,255,245,0.9), rgba(255,255,245,0.9)), url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            background-color: #fffff0;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(211, 175, 55, 0.2);
+            overflow: hidden;
+            border: 1px solid #f0e68c;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ffd700, #ffcc00);
+            color: #5a4a00;
+            padding: 25px 30px;
+            text-align: center;
+            border-bottom: 3px solid #ffaa00;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .header h1 i {
+            font-size: 2rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .form-container {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #8b6914;
+            font-size: 1.05rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e6d375;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            background-color: #fffef8;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #ffcc00;
+            box-shadow: 0 0 0 2px rgba(255, 204, 0, 0.3);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 5px;
+            flex-wrap: wrap;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .radio-option input {
+            width: 18px;
+            height: 18px;
+            accent-color: #ffcc00;
+        }
+
+        .error-message {
+            color: #d9534f;
+            font-size: 0.9rem;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .submit-btn {
+            background: linear-gradient(to right, #ffcc00, #ffaa00);
+            color: #5a4a00;
+            border: none;
+            padding: 16px 30px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            border: 2px solid #ffaa00;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(to right, #ffaa00, #ff9900);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 170, 0, 0.3);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 45px;
+            cursor: pointer;
+            color: #d35400;
+            font-size: 1.2rem;
+            z-index: 10;
+        }
+
+        .success-message {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+            border-left: 5px solid #4caf50;
+        }
+
+        .requirements {
+            background-color: #fff8e1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #ffcc00;
+        }
+
+        .requirements h3 {
+            color: #8b6914;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .requirements ul {
+            padding-left: 20px;
+        }
+
+        .requirements li {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #8b6914;
+            font-size: 0.9rem;
+            padding: 15px;
+            border-top: 1px solid #f0e68c;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-utensils"></i> Iyer's Kitchen</h1>
+            <p>Authentic South Indian Cuisine - Customer Registration</p>
+        </div>
+
+        <div class="form-container">
+            <div class="requirements">
+                <h3>Form Requirements:</h3>
+                <ul>
+                    <li>All fields are required</li>
+                    <li>Name should contain only letters and spaces</li>
+                    <li>Phone number must be exactly 10 digits</li>
+                    <li>Email must be valid (lowercase only)</li>
+                    <li>Date of Birth must be between 1940 and 2008</li>
+                    <li>Duplicate entries will be rejected</li>
+                </ul>
+            </div>
+
+            <form id="registrationForm" action="insert_customer.php" method="POST">
+                <div class="form-group">
+                    <label for="name"><i class="fas fa-user"></i> Full Name *</label>
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Enter your full name" required>
+                    <div class="error-message" id="nameError">Please enter a valid name (only letters and spaces allowed)</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="contactNo"><i class="fas fa-phone"></i> Contact Number *</label>
+                    <input type="text" id="contactNo" name="contact" class="form-control" placeholder="Enter 10-digit phone number" required>
+                    <div class="error-message" id="contactError">Please enter a valid 10-digit phone number</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope"></i> Email ID *</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email address" required>
+                    <div class="error-message" id="emailError">Please enter a valid email address</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="dob"><i class="fas fa-calendar-alt"></i> Date of Birth *</label>
+                    <input type="date" id="dob" name="dob" class="form-control" min="1940-01-01" max="2008-12-31" required>
+                    <div class="error-message" id="dobError">Please select a date between 1940 and 2008</div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-venus-mars"></i> Gender *</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="male" name="gender" value="Male" required>
+                            <label for="male">Male</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="female" name="gender" value="Female" required>
+                            <label for="female">Female</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="other" name="gender" value="Other" required>
+                            <label for="other">Other</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="preferNotToSay" name="gender" value="Prefer not to say" required>
+                            <label for="preferNotToSay">Prefer not to say</label>
+                        </div>
+                    </div>
+                    <div class="error-message" id="genderError">Please select your gender</div>
+                </div>
+
+                <!-- PASSWORD FIELDS - FIXED (outside gender group) -->
+                <div class="form-group">
+                    <label for="register-password"><i class="fas fa-lock"></i> Password *</label>
+                    <input type="password" name="password" id="register-password" class="form-control" placeholder="Create a password" required>
+                    <i class="fas fa-eye password-toggle" id="toggle-register-password"></i>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-confirm-password"><i class="fas fa-lock"></i> Confirm Password *</label>
+                    <input type="password" name="confirm_password" id="register-confirm-password" class="form-control" placeholder="Confirm password" required>
+                    <i class="fas fa-eye password-toggle" id="toggle-confirm-password"></i>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i> Submit Registration
+                </button>
+            </form>
+
+            <div class="success-message" id="successMessage">
+                <i class="fas fa-check-circle"></i> Your registration has been submitted successfully!
+            </div>
+
+            <div class="footer">
+                <p>Iyer's Kitchen &copy; 2023 | Authentic South Indian Cuisine Since 1995</p>
+                <p>Thank you for registering with us!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form validation functions
+        function validateName(name) {
+            const nameRegex = /^[A-Za-z\s]{2,50}$/;
+            return nameRegex.test(name);
+        }
+        
+        function validateContact(contact) {
+            const contactRegex = /^\d{10}$/;
+            return contactRegex.test(contact);
+        }
+        
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+        
+        function validateDOB(dob) {
+            if (!dob) return false;
+            const dobDate = new Date(dob);
+            const minDate = new Date('1940-01-01');
+            const maxDate = new Date('2008-12-31');
+            return dobDate >= minDate && dobDate <= maxDate;
+        }
+        
+        function validateGender(gender) {
+            return gender !== undefined;
+        }
+        
+        function validatePassword(password, confirm) {
+            if (password.length < 6) {
+                return "Password must be at least 6 characters";
+            }
+            if (password !== confirm) {
+                return "Passwords do not match";
+            }
+            return "";
+        }
+        
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+        
+        function hideError(elementId) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.style.display = 'none';
+        }
+        
+        // Form submission with validation
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            const name = document.getElementById('name').value.trim();
+            const contact = document.getElementById('contactNo').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const dob = document.getElementById('dob').value;
+            const gender = document.querySelector('input[name="gender"]:checked')?.value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            
+            // Reset errors
+            hideError('nameError');
+            hideError('contactError');
+            hideError('emailError');
+            hideError('dobError');
+            hideError('genderError');
+            
+            let isValid = true;
+            
+            if (!validateName(name)) {
+                showError('nameError', 'Please enter a valid name');
+                isValid = false;
+            }
+            
+            if (!validateContact(contact)) {
+                showError('contactError', 'Please enter a valid 10-digit phone number');
+                isValid = false;
+            }
+            
+            if (!validateEmail(email)) {
+                showError('emailError', 'Please enter a valid email address');
+                isValid = false;
+            }
+            
+            if (!validateDOB(dob)) {
+                showError('dobError', 'Please select a date between 1940 and 2008');
+                isValid = false;
+            }
+            
+            if (!validateGender(gender)) {
+                showError('genderError', 'Please select your gender');
+                isValid = false;
+            }
+            
+            // Password validation
+            const passwordError = validatePassword(password, confirmPassword);
+            if (passwordError) {
+                alert(passwordError);
+                isValid = false;
+            }
+            
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+        
+        // Real-time validation
+        document.getElementById('name').addEventListener('blur', function() {
+            const name = this.value.trim();
+            if (name && !validateName(name)) {
+                showError('nameError', 'Please enter a valid name');
+            } else {
+                hideError('nameError');
+            }
+        });
+        
+        document.getElementById('contactNo').addEventListener('blur', function() {
+            const contact = this.value.trim();
+            if (contact && !validateContact(contact)) {
+                showError('contactError', 'Please enter a valid 10-digit phone number');
+            } else {
+                hideError('contactError');
+            }
+        });
+        
+        document.getElementById('email').addEventListener('input', function() {
+            this.value = this.value.toLowerCase();
+        });
+        
+        // Toggle password visibility
+        document.addEventListener('DOMContentLoaded', function() {
+            const togglePassword = document.getElementById('toggle-register-password');
+            const password = document.getElementById('register-password');
+            
+            if (togglePassword && password) {
+                togglePassword.addEventListener('click', function() {
+                    const type = password.type === 'password' ? 'text' : 'password';
+                    password.type = type;
+                    this.classList.toggle('fa-eye');
+                    this.classList.toggle('fa-eye-slash');
+                });
+            }
+
+            const toggleConfirm = document.getElementById('toggle-confirm-password');
+            const confirmPassword = document.getElementById('register-confirm-password');
+            
+            if (toggleConfirm && confirmPassword) {
+                toggleConfirm.addEventListener('click', function() {
+                    const type = confirmPassword.type === 'password' ? 'text' : 'password';
+                    confirmPassword.type = type;
+                    this.classList.toggle('fa-eye');
+                    this.classList.toggle('fa-eye-slash');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
